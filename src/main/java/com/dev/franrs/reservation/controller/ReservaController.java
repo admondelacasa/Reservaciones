@@ -25,12 +25,13 @@ public class ReservaController {
     public ReservaController(ReservaService reservaService) {
         this.reservaService = reservaService;
     }
-
+    // Listar todas las reservas
     @GetMapping
     public ResponseEntity<List<Reserva>> listar() {
         return ResponseEntity.ok(reservaService.listarTodas());
     }
 
+    // Crear una nueva reserva
     @PostMapping
     public ResponseEntity<Reserva> crear(@RequestBody @Valid CrearReservaRequest request) {
         Reserva creada =
@@ -47,6 +48,7 @@ public class ReservaController {
         return ResponseEntity.created(location).body(creada);
     }
 
+    // Cancelar una reserva
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> cancelar(@PathVariable Long id) {
         reservaService.cancelar(id);

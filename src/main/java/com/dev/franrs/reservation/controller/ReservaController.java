@@ -4,8 +4,9 @@ import com.dev.franrs.reservation.dto.CrearReservaRequest;
 import com.dev.franrs.reservation.entity.Reserva;
 import com.dev.franrs.reservation.service.ReservaService;
 import jakarta.validation.Valid;
-import java.net.URI;
 import java.util.List;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/reservas")
@@ -33,7 +33,7 @@ public class ReservaController {
 
     @PostMapping
     public ResponseEntity<Reserva> crear(@RequestBody @Valid CrearReservaRequest request) {
-        return ResponseEntity.created().body(reservaService.crear(request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(reservaService.crear(request));
     }
 
     @DeleteMapping("/{id}")

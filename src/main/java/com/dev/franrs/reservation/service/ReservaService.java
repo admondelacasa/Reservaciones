@@ -4,6 +4,7 @@ import com.dev.franrs.reservation.entity.EstadoReserva;
 import com.dev.franrs.reservation.entity.Reserva;
 import com.dev.franrs.reservation.exception.ReglaNegocioException;
 import com.dev.franrs.reservation.repository.ReservaRepository;
+import com.dev.franrs.reservation.dto.CrearReservaRequest;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -27,7 +28,7 @@ public class ReservaService {
 
     @Transactional
     public Reserva crear(CrearReservaRequest request) {
-        if (reservaRepository.existsByFechaAndHoraAndEstado(fecha, hora, EstadoReserva.ACTIVA)) {
+        if (reservaRepository.existsByFechaAndHoraAndEstado(request.fecha(), request.hora(), EstadoReserva.ACTIVA)) {
             throw new ReglaNegocioException(
                     "Ya existe una reserva activa para la fecha y hora indicadas.",
                     HttpStatus.CONFLICT);

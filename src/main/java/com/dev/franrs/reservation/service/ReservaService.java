@@ -26,18 +26,17 @@ public class ReservaService {
     }
 
     @Transactional
-    public Reserva crear(
-            String nombreCliente, LocalDate fecha, LocalTime hora, String servicio) {
+    public Reserva crear(CrearReservaRequest request) {
         if (reservaRepository.existsByFechaAndHoraAndEstado(fecha, hora, EstadoReserva.ACTIVA)) {
             throw new ReglaNegocioException(
                     "Ya existe una reserva activa para la fecha y hora indicadas.",
                     HttpStatus.CONFLICT);
         }
         Reserva reserva = new Reserva();
-        reserva.setNombreCliente(nombreCliente);
-        reserva.setFecha(fecha);
-        reserva.setHora(hora);
-        reserva.setServicio(servicio);
+        reserva.setNombreCliente(request.nombreCliente());
+        reserva.setFecha(request.fecha());
+        reserva.setHora(request.hora());
+        reserva.setServicio(request.servicio());
         reserva.setEstado(EstadoReserva.ACTIVA);
         return reservaRepository.save(reserva);
     }

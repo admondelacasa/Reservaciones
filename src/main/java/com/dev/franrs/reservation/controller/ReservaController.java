@@ -33,18 +33,7 @@ public class ReservaController {
 
     @PostMapping
     public ResponseEntity<Reserva> crear(@RequestBody @Valid CrearReservaRequest request) {
-        Reserva creada =
-                reservaService.crear(
-                        request.nombreCliente(),
-                        request.fecha(),
-                        request.hora(),
-                        request.servicio());
-        URI location =
-                ServletUriComponentsBuilder.fromCurrentRequest()
-                        .path("/{id}")
-                        .buildAndExpand(creada.getId())
-                        .toUri();
-        return ResponseEntity.created(location).body(creada);
+        return ResponseEntity.created().body(reservaService.crear(request));
     }
 
     @DeleteMapping("/{id}")

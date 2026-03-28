@@ -1,0 +1,29 @@
+---
+description: Java package layout for Spring Boot backend (where each type of class belongs)
+globs: "**/*.java"
+alwaysApply: false
+---
+
+# Java package structure
+
+Base package: `com.dev.franrs.reservation`
+
+Place new code in the subpackage that matches its role. Keep the application class at the root package.
+
+| Package | Contents |
+|---------|----------|
+| `config` | Spring configuration: `WebMvcConfigurer`, CORS, `@Configuration` classes, explicit beans. |
+| `controller` | REST controllers (`@RestController`); HTTP mapping only, delegate to services. |
+| `dto` | API payloads: request/response records or classes (e.g. `CrearReservaRequest`), not JPA entities. |
+| `entity` | JPA entities (`@Entity`), and enums persisted or tightly coupled to entities (e.g. status enums). |
+| `exception` | Domain/runtime exceptions for business rules and global handlers (`@RestControllerAdvice`, `@ExceptionHandler`). |
+| `repository` | Spring Data JPA repositories (`JpaRepository`, etc.). |
+| `service` | Business logic (`@Service`), transactions, orchestration; no HTTP-specific types in method signatures when avoidable. |
+
+**Root package (`com.dev.franrs.reservation`)**  
+- Only the Spring Boot main class (`*Application`).
+
+**Rules**
+
+- Do not put entities or repositories inside `controller` or `service` source files; one top-level type per file, under the correct package.
+- Cross-cutting API types used only in controllers may stay in `dto`; shared error bodies can live next to `exception` handlers if you add them later.
